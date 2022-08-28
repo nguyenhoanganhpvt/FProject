@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+    <title>Quản Lý Sinh Viên</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .form {
+            width: 50%;
+            margin: 50px 25%;
+        }
+
+        .form>* {
+            margin: 10px 0;
+        }
+
+        #add {
+            width: 25%;
+            margin: 10px calc(75% / 2);
+        }
+
+        .students {
+            width: 75%;
+            margin: 10px calc(25% / 2);
+        }
+
+        th,
+        td {
+            text-align: center !important;
+        }
+
+        .db {
+            margin: 20px 0;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .db>a {
+            text-align: center !important;
+            margin: 0 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form">
+        <input type="text" class="input" id="msv" placeholder="Nhập Mã Sinh Viên" autocomplete="off" required />
+        <input type="text" class="input" id="name" placeholder="Nhập Tên Học Sinh" autocomplete="off" required />
+        <input type="text" class="input" id="bornyear" placeholder="Nhập Năm Sinh" autocomplete="off" required />
+        <input type="text" id="hometown" class="input" placeholder="Nhập Quê Quán" autocomplete="off" required />
+        <input type="text" id="math" class="input" placeholder="Nhập Điểm Toán" autocomplete="off" required />
+        <input type="text" id="literature" class="input" placeholder="Nhập Điểm Văn" autocomplete="off" required />
+        <input type="text" id="english" class="input" placeholder="Nhập Điểm Tiếng Anh" autocomplete="off" required />
+        <button class="button is-primary" id="add">Thêm</button>
+    </div>
+    <table class="students table" id="students">
+        <tr>
+            <th>Mã Sinh Viên</th>
+            <th>Tên</th>
+            <th>Năm Sinh</th>
+            <th>Quê Quán</th>
+            <th>Điểm Toán</th>
+            <th>Điểm Văn</th>
+            <th>Điểm Anh</th>
+            <th>Điểm Trung Bình</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </table>
+    <div class="db">
+        <a href="./index.html" download="index">Tải Xuống</a>
+        <a href="/">Quay Lại</a>
+    </div>
+</body>
+
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function toTitleCase(str) {
+        return str.replace(/\w\S*/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+        })
+    }
+    $('#add').click(function () {
+        let msv = $('#msv').val()
+        let name = $('#name').val()
+        let bornyear = Number($('#bornyear').val())
+        let hometown = $('#hometown').val()
+        let math = Number($('#math').val())
+        let literature = Number($('#literature').val())
+        let english = Number($('#english').val())
+        let avg = (math + literature + english) / 3
+        if (
+            !msv ||
+            !name ||
+            bornyear === NaN ||
+            !hometown ||
+            math === NaN ||
+            literature === NaN ||
+            english === NaN
+        ) {
+            Swal.fire({
+                title: 'Lỗi',
+                text: 'Xin hãy điền toàn bộ thông tin hoặc kiểm tra lại định dạng thông tin',
+                icon: 'error',
+            })
+        } else {
+            $('#students').append(`
+            <tr class="student_item">
+                <td>${msv}</td>
+                <td>${toTitleCase(name)}</td>
+                <td>${bornyear}</td>
+                <td>${toTitleCase(hometown)}</td>
+                <td>${math}</td>
+                <td>${literature}</td>
+                <td>${english}</td>
+                <td>${avg}</td>
+                <td><button class="button is-danger delete" id="delete">Xóa Sinh Viên</button></td>
+                <td><button class="button is-warning delete" id="edit">Sửa Thông Tin</button></td>
+            </tr>
+            `)
+            const id = [
+                '#msv',
+                '#name',
+                '#bornyear',
+                '#hometown',
+                '#math',
+                '#literature',
+                '#english',
+            ]
+            id.forEach((element) => {
+                $(element).val('')
+            })
+            Swal.fire({
+                title: 'Thành Công',
+                text: `Thêm thành công học sinh ${toTitleCase(name)}`,
+                icon: 'success',
+            })
+        }
+    })
+    $('#students').on('click', '#edit', async function () {
+        const element = $(this).closest('tr').children()
+        const { value: formValues } = await Swal.fire({
+            confirmButtonText: 'Cập Nhập',
+            title: 'Multiple inputs',
+            html: `<input style="margin-bottom: 10px;" value="${element.eq(0).text()}" type="text" class="input" id="msv-e" placeholder="Nhập Mã Sinh Viên" autocomplete="off" required />
+        <input style="margin-bottom: 10px;" value="${element.eq(1).text()}" type="text" class="input" id="name-e" placeholder="Nhập Tên Học Sinh" autocomplete="off" required />
+        <input style="margin-bottom: 10px;" value="${element.eq(2).text()}" type="text" class="input" id="bornyear-e" placeholder="Nhập Năm Sinh" autocomplete="off" required />
+        <input style="margin-bottom: 10px;" value="${element.eq(3).text()}" type="text" id="hometown-e" class="input" placeholder="Nhập Quê Quán" autocomplete="off" required />
+        <input style="margin-bottom: 10px;" value="${element.eq(4).text()}" type="text" id="math-e" class="input" placeholder="Nhập Điểm Toán" autocomplete="off" required />
+        <input style="margin-bottom: 10px;" value="${element.eq(5).text()}" type="text" id="literature-e" class="input" placeholder="Nhập Điểm Văn" autocomplete="off" required />
+        <input style="margin-bottom: 10px;" value="${element.eq(6).text()}" type="text" id="english-e" class="input" placeholder="Nhập Điểm Tiếng Anh" autocomplete="off" required />`,
+            preConfirm: () => {
+                return [$('#msv-e').val(), toTitleCase($('#name-e').val()), Number($("#bornyear-e").val()), toTitleCase($("#hometown-e").val()), Number($("#math-e").val()), Number($("#literature-e").val()), Number($("#english-e").val())]
+            }
+        })
+        if (formValues) {
+            if (
+                !formValues[0] ||
+                !formValues[1] ||
+                formValues[2] === NaN ||
+                !formValues[3] ||
+                formValues[4] === NaN ||
+                formValues[5] === NaN ||
+                formValues[6] === NaN
+            ) {
+                Swal.fire({
+                    title: 'Lỗi',
+                    text: 'Xin hãy điền toàn bộ thông tin hoặc kiểm tra lại định dạng thông tin',
+                    icon: 'error',
+                })
+            } else {
+                element.eq(0).text(formValues[0])
+                element.eq(1).text(formValues[1])
+                element.eq(2).text(formValues[2])
+                element.eq(3).text(formValues[3])
+                element.eq(4).text(formValues[4])
+                element.eq(5).text(formValues[5])
+                element.eq(6).text(formValues[6])
+                element.eq(7).text((formValues[4] + formValues[5] + formValues[6]) / 3)
+                Swal.fire({
+                    title: 'Cập Nhật Thành Công',
+                    icon: 'success',
+                })
+            }
+        } else {
+            Swal.fire({
+                title: 'Lỗi Không Xác Định',
+                icon: 'error',
+            })
+        }
+    })
+    $('#students').on('click', '#delete', function () {
+        Swal.fire({
+            title: 'Bạn có muốn xóa sinh viên này?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa',
+            showLoaderOnConfirm: true,
+        }).then((willDelete) => {
+            if (willDelete.isConfirmed) {
+                $(this).closest('tr').remove()
+                Swal.fire('Xóa Thành Công', '', 'success')
+            } else {
+                Swal.fire('Hủy Thành Công', '', 'success')
+            }
+        })
+    })
+</script>
