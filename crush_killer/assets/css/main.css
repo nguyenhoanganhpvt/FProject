@@ -1,0 +1,79 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+body {
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-image: url('../img/bg.jpg');
+}
+body > * {
+    margin: 20px 0 !important;
+}
+.swal2-image {
+    border-radius: 50%;
+    border: 1px solid #eee;
+}
+.swal2-html-container {
+    color: white !important;
+}
+.swal2-title {
+    color: white !important;
+}
+.title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 80px;
+    color: white !important;
+}
+.subtitle {
+    font-family: 'Dancing Script', cursive;
+    font-size: 30px;
+    font-weight: 700;
+    color: white !important;
+}
+#yes:hover {
+    opacity: 0.8;
+}
+#no {
+    z-index: 3;
+    width: fit-content;
+}
+.swal2-container {
+    margin: 0 !important;
+}
+.gbuttons > * {
+    margin: 0 50px;
+}
+.swal2-input {
+    background-color: #fff !important;
+}
+.load {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(237, 100, 100);
+    z-index: 33;
+    margin: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#spin {
+    border: none;
+    background-color: transparent;
+}

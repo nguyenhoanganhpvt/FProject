@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./assets/img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <title>Crush Killer</title>
+</head>
+
+<body style="height: 100vh !important;">
+    <div class="load">
+        <button class="button is-loading is-large" id="spin">Loading</button>
+    </div>
+    <h1 class="title">Cậu yêu tớ có phải không nào ._.</h1>
+    <p class="subtitle">Nếu cậu ko trả lời mà thoát ra tức là muốn làm vợ tớ rùi đó nha :v</p>
+    <div class="gbuttons">
+        <button class="button is-danger" id="yes">Yêu ơi là yêu &lt;3</button>
+        <button class="button is-info" id="no">Cậu mơ à</button>
+    </div>
+</body>
+
+</html>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".load").fadeOut("slow")
+        const noButton = document.getElementById("no")
+        const spaceHeight = document.body.offsetHeight - parseInt(noButton.offsetHeight) * 2
+        const spaceWidth = document.body.offsetWidth - parseInt(noButton.offsetWidth) * 2
+        const pop = new Audio("./assets/sound/pop.mp3")
+        const msg = "Vì cậu đẹp try vlllll"
+        const keyCodeNotAC = [27, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 45, 46, 9, 20, 16, 17, 91, 18, 37, 40, 39, 38, 13, 8]
+        var i = 0
+        pop.playbackRate = 2
+        $("#no").hover(function () {
+            noButton.style.position = "absolute"
+            noButton.style.top = Math.round(Math.random() * spaceHeight) + 'px'
+            noButton.style.left = Math.round(Math.random() * spaceWidth) + 'px'
+            pop.play()
+        })
+        Swal.fire({
+            title: "Hello Cậu!",
+            text: "Tớ có điều này muốn hỏi cậu nhớ phải trả lời thật lòng nhaaa.",
+            imageUrl: "./assets/img/cuteCat.jpg",
+            imageHeight: 250,
+            imageWidth: 250,
+            imageAlt: "Cute Cat",
+            background: '#fff url(./assets/img/sea.jpg)',
+            backdrop: "rgba(0,0,0,0.5) no-repeat"
+        })
+        $("#yes").click(function () {
+            Swal.fire({
+                title: "Nói cho tớ lí do cậu thích tớ đi :vvvv",
+                input: 'text',
+                inputAttributes: {
+                    id: "msg"
+                },
+                inputPlaceholder: "Whyyy",
+                confirmButtonText: "Gửi cho tớ <3",
+                confirmButtonColor: "red",
+                background: "#282a35",
+                backdrop: `
+                rgba(0,0,123,0.4)
+                url("./assets/img/cat.gif")
+                left top
+                no-repeat
+            `,
+                stopKeydownPropagation: false,
+                returnInputValueOnDeny: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Tớ biết mà ^^ Yêu cậu 300.000",
+                        text: 'Tối nay tớ qua đón cậu đi chơi nhaaaaaaaaa :v Còn giờ thì chờ gì nữa mà ko inbox cho tớ đi nàoooooo',
+                        confirmButtonText: "Okiii lun <3",
+                        confirmButtonColor: "green",
+                        background: "#282a35",
+                        backdrop: `
+                        rgba(0,0,123,0.4)
+                        url("./assets/img/cat.gif")
+                        left top
+                        no-repeat
+                    `
+                    })
+                }
+            })
+        })
+        $(document).keydown(function (e) {
+            if (!keyCodeNotAC.includes(e.keyCode)) {
+                e.preventDefault()
+                if ($("#msg").val().length == msg.length) {
+                    i = 0
+                    $("#msg").val("")
+                } else {
+                    $("#msg").val($("#msg").val() + msg[i])
+                    i += 1
+                }
+            }
+        })
+    })
+</script>

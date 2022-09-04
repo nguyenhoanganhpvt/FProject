@@ -2,5 +2,9 @@
     {
         "name" : "Student Manager",
         "link" : "/student_manager"
+    },
+    {
+        "name" : "Crush Killer",
+        "link" : "/crush_killer"
     }
 ]

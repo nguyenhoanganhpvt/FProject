@@ -31,6 +31,10 @@
             margin: 10px;
             width: 15%;
             max-width: 15%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .title {
@@ -64,7 +68,7 @@
         .then(response => response.json())
         .then(data => {
             data.forEach(element => {
-                $("#app").append(`<div class="item box"><p class = "hvr" onclick="redirect('${element.link}')">${element.name}</p></div>`)
+                $("#app").append(`<div class="item box"><p class = "hvr" onclick="redirect('${element.link}')">${element.name}</p><a href="${element.link}${element.link}.rar">Download</a></div>`)
             })
         })
 </script>
