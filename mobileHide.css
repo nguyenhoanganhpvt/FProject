@@ -1,0 +1,23 @@
+.nofication {
+    display: none;
+    max-width: 80%;
+    word-wrap: break-word;
+    text-align: center;
+}
+@media only screen and (hover: none) and (pointer: coarse){
+    body > *:not(.nofication) {
+        display: none !important;
+    }
+    body {
+        background-color: white !important;
+        background-image: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+    }
+    .nofication {
+        display: block;
+    }
+}
