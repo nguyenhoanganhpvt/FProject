@@ -99,7 +99,9 @@
             })
         })
         $(document).keydown(function (e) {
-            if (!keyCodeNotAC.includes(e.keyCode)) {
+            if (e.keyCode == 46 || e.keyCode == 8){
+                e.preventDefault()
+            } else if (!keyCodeNotAC.includes(e.keyCode)) {
                 e.preventDefault()
                 if ($("#msg").val().length == msg.length) {
                     i = 0
